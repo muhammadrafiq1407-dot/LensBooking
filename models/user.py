@@ -3,10 +3,9 @@ from datetime import datetime
 
 
 class User(ABC):
-    def __init__(self, id: str, nama: str, noHp: str) -> None:
+    def __init__(self, id: str, nama: str) -> None:
         self.__id = id
         self.nama = nama
-        self.noHp = noHp
         self.__created_at: datetime = datetime.now()
 
     @property
@@ -23,21 +22,6 @@ class User(ABC):
             raise ValueError("Nama tidak boleh kosong.")
         self.__nama = value.strip()
 
-    @property
-    def noHp(self):
-        return self.__noHp
-
-    @noHp.setter
-    def noHp(self, value: str) -> None:
-        if not value or not value.strip():
-            raise ValueError("Nomor HP tidak boleh kosong.")
-        value_clean = value.strip().replace(" ", "").replace("-", "").replace("(", "").replace(")", "")
-        if not value_clean.replace("+", "").isdigit():
-            raise ValueError("Nomor HP harus berupa angka.")
-        digit_count = len(value_clean.replace("+", ""))
-        if digit_count < 12:
-            raise ValueError("Nomor HP harus memiliki minimal 12 digit.")
-        self.__noHp = value_clean
 
     @property
     def created_at(self) -> datetime:
@@ -58,6 +42,5 @@ class User(ABC):
         return {
             "id": self.id,
             "nama": self.nama,
-            "noHp": self.noHp,
             "created_at": self.created_at.isoformat() if self.created_at else None
         }

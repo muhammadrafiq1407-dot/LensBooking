@@ -2,8 +2,8 @@ from .user import User
 
 
 class Admin(User):
-    def __init__(self, id: str, nama: str, noHp: str, username: str, password: str) -> None:
-        super().__init__(id=id, nama=nama, noHp=noHp)
+    def __init__(self, id: str, nama: str, username: str, password: str) -> None:
+        super().__init__(id=id, nama=nama)
         self.__username = username
         self.__password = password
         self.paket_list: list = []
@@ -53,7 +53,7 @@ class Admin(User):
         return self.paket_list.copy()
 
     def display_info(self) -> str:
-        return f"Admin: {self.nama}\nNo HP: {self.noHp}\nUsername: {self.username}"
+        return f"Admin: {self.nama}\nUsername: {self.username}"
 
     def get_role(self) -> str:
         return "Admin"
