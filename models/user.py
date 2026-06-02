@@ -36,7 +36,7 @@ class User(ABC):
         pass
 
     def __str__(self) -> str:
-        return f"{self.get_role()}: {self.nama}, No HP: {self.noHp})"
+        return f"{self.get_role()}: {self.nama})"
     
     def to_dict(self) -> dict:
         return {
