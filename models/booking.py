@@ -81,29 +81,29 @@ class Booking:
         return True
 
     def display_info(self) -> str:
-
+        # PERBAIKAN: Mengganti .get_nama() menjadi .nama
         return (
             f"ID Booking : {self.id_booking}\n"
             f"Tanggal    : {self.tanggal}\n"
             f"Status     : {self.status}\n"
             f"Pelanggan  : {self.pelanggan.nama}\n"
             f"Fotografer : {self.fotografer.nama}\n"
-            f"Paket      : {self.paket.nama_paket}"
+            f"Paket      : {self.paket.get_nama_paket()}"
         )
 
     def to_dict(self) -> dict:
-
+        # PERBAIKAN: Mengganti .get_nama() menjadi .nama
         return {
             "id_booking": self.id_booking,
             "tanggal": str(self.tanggal),
             "status": self.status,
             "pelanggan": self.pelanggan.nama,
             "fotografer": self.fotografer.nama,
-            "paket": self.paket.nama_paket
+            "paket": self.paket.get_nama_paket()
         }
     
     def get_total_bayar(self, jumlah_paket=1) -> float:
-       
+
         hari_inggris = self.tanggal.strftime("%A")
         terjemahan_hari = {
             "Monday": "Senin", "Tuesday": "Selasa", "Wednesday": "Rabu",
@@ -111,5 +111,4 @@ class Booking:
         }
         hari_indonesia = terjemahan_hari.get(hari_inggris, "Biasa")
 
-      
         return self.paket.hitung_harga(jumlah_paket=jumlah_paket, hari=hari_indonesia)

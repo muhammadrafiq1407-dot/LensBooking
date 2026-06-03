@@ -1,4 +1,4 @@
-from .user import User
+from models.user import User
 
 
 class Admin(User):
@@ -16,6 +16,9 @@ class Admin(User):
     def password(self) -> str:
         return "*" * len(self.__password)
 
+    @property
+    def id_paket(self):
+        return getattr(self, '_Admin__id_paket', None)
 
     def set_password(self, new_password: str) -> None:
         if len(new_password) < 5:
@@ -34,19 +37,19 @@ class Admin(User):
     def tambah_paket(self, paket) -> bool:
         if paket not in self.paket_list:
             self.paket_list.append(paket)
-            print(f"Paket '{paket.nama}' berhasil ditambahkan.")
+            print(f"Paket '{paket.get_nama_paket()}' berhasil ditambahkan.")
             return True
-        print(f"Paket '{paket.nama}' sudah ada.")
+        print(f"Paket '{paket.get_nama_paket()}' sudah ada.")
         return False
 
 
     def hapus_paket(self, paket) -> bool:
         for p in self.paket_list:
-            if p.id == paket.id:
-                self.paket_list.remove(paket)
-                print(f"Paket dengan ID '{paket.id}' berhasil dihapus.")
+            if p.id_paket == paket.id_paket:
+                self.paket_list.remove(p)
+                print(f"Paket dengan ID '{paket.id_paket}' berhasil dihapus.")
                 return True
-        print(f"Paket dengan ID '{paket.id}' tidak ditemukan.")
+        print(f"Paket dengan ID '{paket.id_paket}' tidak ditemukan.")
         return False
 
     def lihat_laporan(self) -> list:

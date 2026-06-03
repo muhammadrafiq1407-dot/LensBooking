@@ -13,6 +13,21 @@ class PaketFoto(ABC):
     def get_harga_dasar(self): return self.__harga
     def get_durasi(self): return self.__durasi
 
+    @property
+    def id_paket(self):
+        return self.__id_paket
+
+    @property
+    def nama_paket(self):
+        return self.__nama_paket
+
+    @property
+    def harga(self):
+        return self.__harga
+
+    @property
+    def durasi(self):
+        return self.__durasi
     @abstractmethod
     def hitung_harga(self, jumlah_paket=1, hari="Biasa"):
         pass

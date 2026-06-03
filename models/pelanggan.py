@@ -1,4 +1,4 @@
-from .user import User
+from models.user import User
 
 class Pelanggan(User):
     def __init__(self, id: str, nama: str, alamat: str, telepon:str) -> None:
