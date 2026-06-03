@@ -22,9 +22,7 @@ def main():
     print(" SISTEM PEMESANAN JASA FOTOGRAFI ")
     print("=" * 50)
 
-    # ==========================
-    # ADMIN
-    # ==========================
+    
     admin = Admin(
         id="A001",
         nama="Rafiq",
@@ -34,9 +32,7 @@ def main():
 
     admin.login("admin123")
 
-    # ==========================
-    # PAKET FOTO
-    # ==========================
+    
     paket_wedding = PaketWedding(
         id_paket="PW001",
         nama_paket="Wedding Premium",
@@ -60,9 +56,7 @@ def main():
     for paket in admin.lihat_laporan():
         print("-", paket.get_nama_paket())
 
-    # ==========================
-    # PELANGGAN
-    # ==========================
+    
     pelanggan = Pelanggan(
         id="P001",
         nama="Budi",
@@ -70,9 +64,7 @@ def main():
         telepon="081234567890"
     )
 
-    # ==========================
-    # FOTOGRAFER
-    # ==========================
+    
     fotografer = Fotografer(
         id="F001",
         nama="Andi",
@@ -80,9 +72,6 @@ def main():
         pengalaman=5
     )
 
-    # ==========================
-    # BOOKING
-    # ==========================
     booking = Booking(
         id_booking="BK001",
         tanggal=datetime(2025, 6, 6),  # Jumat
@@ -96,9 +85,7 @@ def main():
     print("\n=== DETAIL BOOKING ===")
     print(booking.display_info())
 
-    # ==========================
-    # HITUNG TOTAL BAYAR
-    # ==========================
+    
     total_bayar = booking.get_total_bayar(
         jumlah_paket=2
     )
@@ -106,9 +93,7 @@ def main():
     print("\n=== TOTAL PEMBAYARAN ===")
     print(f"Total Bayar : Rp {total_bayar:,.0f}")
 
-    # ==========================
-    # UPDATE STATUS
-    # ==========================
+    
     fotografer.update_status(
         booking_id="BK001",
         status="Selesai"
@@ -116,9 +101,7 @@ def main():
 
     print("\nStatus Booking :", booking.status)
 
-    # ==========================
-    # PEMBAYARAN
-    # ==========================
+    
     pembayaran = Pembayaran(
         booking=booking,
         jumlah=total_bayar,
@@ -129,9 +112,7 @@ def main():
 
     print(pembayaran.cetak_invoice())
 
-    # ==========================
-    # LAPORAN
-    # ==========================
+
     laporan = Laporan()
 
     laporan.tambah_data_booking(booking)
@@ -151,9 +132,7 @@ def main():
         bulan=6
     )
 
-    # ==========================
-    # DATA USER
-    # ==========================
+
     print("\n=== DATA PELANGGAN ===")
     print(pelanggan.display_info())
 
