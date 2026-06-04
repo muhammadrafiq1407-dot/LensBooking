@@ -140,11 +140,9 @@ def menu_pelanggan():
 
                 print("\n[DAFTAR PAKET TERSEDIA]")
                 for i, pkt in enumerate(daftar_paket):
-                    print(f"{i+1}. {pkt.nama_paket} - Rp {pkt.get_harga_dasar():,.0f} ({pkt.get_durasi()} Jam)")
-                    # Menampilkan deskripsi detail
+                    print(f"{i+1}. {pkt.get_nama_paket()} - Rp {pkt.get_harga_dasar():,.0f} ({pkt.get_durasi()} Jam)")
                     print(f"   >> Detail: {pkt.get_deskripsi()}")
                 
-                # Menambahkan Opsi Custom di pilihan paling akhir
                 print(f"\n{len(daftar_paket) + 1}. [BUAT PAKET CUSTOM] Request paket untuk event khusus (Ulang Tahun, Reuni, dll)")
                 print("0. (Batalkan Booking)")
                 
@@ -155,7 +153,6 @@ def menu_pelanggan():
                         jeda_interaksi()
                         return
                     
-                    # LOGIKA JIKA MEMILIH PAKET CUSTOM
                     if pil_paket == len(daftar_paket) + 1:
                         nama_event = input("-> Acara apa yang ingin Anda dokumentasikan? (misal: Ulang Tahun Anak): ").strip()
                         try:
@@ -165,7 +162,6 @@ def menu_pelanggan():
                             if not konfirmasi_error(): return
                             continue
                         
-                        # Harga dinamis untuk custom, misal tarif studio 350.000 per jam
                         harga_per_jam_studio = 350000 
                         paket_dipilih = PaketCustom(
                             id_paket=f"PC{len(daftar_booking)+1:03d}", 
@@ -176,7 +172,6 @@ def menu_pelanggan():
                         )
                         detail_tambahan = input(f"-> Masukkan lokasi atau permintaan khusus untuk acara {nama_event}: ")
 
-                    # LOGIKA JIKA MEMILIH PAKET REGULER (Wedding / Wisuda)
                     elif 1 <= pil_paket <= len(daftar_paket):
                         paket_dipilih = daftar_paket[pil_paket - 1]
                         detail_tambahan = ""
