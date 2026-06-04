@@ -111,9 +111,10 @@ def menu_crud_paket():
 
 def menu_crud_pelanggan():
     while True:
-        print("\n=== KELOLA DATA PELANGGAN (CRUD) ===")
-        print("1. Registrasi Pelanggan Baru (Create)")
-        print("2. Tampilkan Semua Pelanggan (Read)")
+        print("\n=== KELOLA DATA PELANGGAN  ===")
+        print("1. Registrasi Pelanggan Baru ")
+        print("2. Tampilkan Semua Pelanggan " \
+        ")")
         print("0. Kembali ke Menu Utama")
         pilihan = input("Pilih menu [0-2]: ").strip()
 
@@ -143,12 +144,12 @@ def menu_crud_pelanggan():
 
 def menu_crud_booking():
     while True:
-        print("\n=== KELOLA RESERVASI & TRANSAKSI (CRUD) ===")
-        print("1. Buat Reservasi Booking Baru (Create)")
-        print("2. Lihat Semua Riwayat Booking (Read)")
-        print("3. Update Status Pekerjaan Lapangan (Update)")
-        print("4. Proses Pembayaran & Invoice (Update/Create)")
-        print("5. Batalkan Jadwal Booking (Delete/Cancel)")
+        print("\n=== KELOLA RESERVASI & TRANSAKSI  ===")
+        print("1. Buat Reservasi Booking Baru ")
+        print("2. Lihat Semua Riwayat Booking ")
+        print("3. Update Status Pekerjaan Lapangan ")
+        print("4. Proses Pembayaran & Invoice ")
+        print("5. Batalkan Jadwal Booking ")
         print("0. Kembali ke Menu Utama")
         pilihan = input("Pilih menu [0-5]: ").strip()
 
@@ -302,10 +303,10 @@ def main():
             print("\n" + "="*45)
             print("               MENU UTAMA APLIKASI            ")
             print("="*45)
-            print("1. Kelola Layanan Paket Foto (CRUD Paket)")
-            print("2. Kelola Registrasi Pelanggan (CRUD Pelanggan)")
-            print("3. Kelola Transaksi Pemesanan (CRUD Booking)")
-            print("4. Lihat Laporan Keuangan (Audit Laporan)")
+            print("1. Kelola Layanan Paket Foto ")
+            print("2. Kelola Registrasi Pelanggan ")
+            print("3. Kelola Transaksi Pemesanan ")
+            print("4. Lihat Laporan Keuangan ")
             print("0. Keluar dari Aplikasi")
             print("="*45)
             
