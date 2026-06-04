@@ -31,7 +31,9 @@ class PaketWedding(PaketFoto, DiskonMixin):
         harga_dasar = self.get_harga_dasar()
         biaya_dekorasi = 1500000 if self.__dekorasi else 0
         total_sementara = (harga_dasar + biaya_dekorasi) * jumlah_paket
-        return self.apply_discount(total_sementara)
+        
+        hasil_diskon = self.apply_discount(total_sementara)
+        return hasil_diskon[0] if isinstance(hasil_diskon, tuple) else hasil_diskon
 
 class PaketWisuda(PaketFoto, DiskonMixin):
     def __init__(self, id_paket, nama_paket, harga, durasi, jumlah_orang, deskripsi=""):
@@ -42,7 +44,9 @@ class PaketWisuda(PaketFoto, DiskonMixin):
         harga_dasar = self.get_harga_dasar()
         biaya_ekstra = (self.__jumlah_orang - 5) * 50000 if self.__jumlah_orang > 5 else 0
         total_sementara = (harga_dasar + biaya_ekstra) * jumlah_paket
-        return self.apply_discount(total_sementara)
+        
+        hasil_diskon = self.apply_discount(total_sementara)
+        return hasil_diskon[0] if isinstance(hasil_diskon, tuple) else hasil_diskon
 
 class PaketCustom(PaketFoto, DiskonMixin):
     """Paket fleksibel untuk acara seperti Ulang Tahun, Reuni, dll."""
@@ -54,4 +58,6 @@ class PaketCustom(PaketFoto, DiskonMixin):
     def hitung_harga(self, jumlah_paket=1, hari="Biasa"):
         harga_dasar = self.get_harga_dasar()
         total_sementara = harga_dasar * jumlah_paket
-        return self.apply_discount(total_sementara)
+        
+        hasil_diskon = self.apply_discount(total_sementara)
+        return hasil_diskon[0] if isinstance(hasil_diskon, tuple) else hasil_diskon
