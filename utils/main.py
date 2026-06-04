@@ -14,16 +14,17 @@ try:
     from models.pelanggan import Pelanggan 
     from models.pembayaran import Pembayaran
     from models.laporan import Laporan
-    from models.paket_foto import PaketWedding, PaketWisuda
+    from models.paket_foto import PaketWedding, PaketWisuda, PaketCustom
+    
 except ImportError as e:
     print(f"[ERROR] Gagal mengimpor modul: {e}")
     sys.exit(1)
 
 
 daftar_paket = [
-    PaketWedding("PW01", "Wedding Premium", 5000000, 8, True),
-    PaketWisuda("PS01", "Wisuda Gold", 1500000, 3, 5),
-    PaketWisuda("PS02", "Wisuda Hemat", 800000, 1, 2)
+    PaketWedding("PW01", "Wedding Premium", 5000000, 8, True, "Dokumentasi eksklusif pernikahan full-day, gratis cetak album & dekorasi mini studio."),
+    PaketWisuda("PS01", "Wisuda Gold", 1500000, 3, 5, "Sesi foto wisuda VIP (Indoor/Outdoor), bebas gaya, maks 5 orang, termasuk frame 17R."),
+    PaketWisuda("PS02", "Wisuda Hemat", 800000, 1, 2, "Sesi foto wisuda durasi singkat, maks 2 orang, hasil foto diedit secara digital.")
 ]
 
 daftar_fotografer = [
@@ -138,29 +139,56 @@ def menu_pelanggan():
                     continue
 
                 print("\n[DAFTAR PAKET TERSEDIA]")
-                print("0. (Tidak Ada yang Cocok / Batalkan Booking)")
                 for i, pkt in enumerate(daftar_paket):
-                    keterangan_custom = "(Custom Detail: Lokasi Acara)" if "Wedding" in pkt.nama_paket else "(Custom Detail: Jumlah Orang)"
-                    print(f"{i+1}. {pkt.nama_paket} - Durasi {pkt.get_durasi()} Jam - Rp {pkt.get_harga_dasar():,.0f} {keterangan_custom}")
+                    print(f"{i+1}. {pkt.nama_paket} - Rp {pkt.get_harga_dasar():,.0f} ({pkt.get_durasi()} Jam)")
+                    # Menampilkan deskripsi detail
+                    print(f"   >> Detail: {pkt.get_deskripsi()}")
+                
+                # Menambahkan Opsi Custom di pilihan paling akhir
+                print(f"\n{len(daftar_paket) + 1}. [BUAT PAKET CUSTOM] Request paket untuk event khusus (Ulang Tahun, Reuni, dll)")
+                print("0. (Batalkan Booking)")
                 
                 try:
-                    pil_paket = int(input("Pilih nomor paket (0 untuk batal): ").strip())
+                    pil_paket = int(input("\nPilih nomor paket (0 untuk batal): ").strip())
                     if pil_paket == 0:
                         print("[!] Booking dibatalkan. Kembali ke menu pelanggan.")
                         jeda_interaksi()
                         return
-                    if pil_paket < 1 or pil_paket > len(daftar_paket):
+                    
+                    # LOGIKA JIKA MEMILIH PAKET CUSTOM
+                    if pil_paket == len(daftar_paket) + 1:
+                        nama_event = input("-> Acara apa yang ingin Anda dokumentasikan? (misal: Ulang Tahun Anak): ").strip()
+                        try:
+                            durasi_custom = int(input(f"-> Berapa jam estimasi Anda membutuhkan fotografer untuk {nama_event}? (angka): ").strip())
+                        except ValueError:
+                            print("[-] Durasi harus berupa angka!")
+                            if not konfirmasi_error(): return
+                            continue
+                        
+                        # Harga dinamis untuk custom, misal tarif studio 350.000 per jam
+                        harga_per_jam_studio = 350000 
+                        paket_dipilih = PaketCustom(
+                            id_paket=f"PC{len(daftar_booking)+1:03d}", 
+                            nama_paket=f"Custom: {nama_event}", 
+                            harga_per_jam=harga_per_jam_studio, 
+                            durasi=durasi_custom, 
+                            deskripsi=f"Paket dokumentasi acara {nama_event} secara custom sesuai permintaan."
+                        )
+                        detail_tambahan = input(f"-> Masukkan lokasi atau permintaan khusus untuk acara {nama_event}: ")
+
+                    # LOGIKA JIKA MEMILIH PAKET REGULER (Wedding / Wisuda)
+                    elif 1 <= pil_paket <= len(daftar_paket):
+                        paket_dipilih = daftar_paket[pil_paket - 1]
+                        detail_tambahan = ""
+                        
+                        if "Wedding" in paket_dipilih.get_nama_paket():
+                            detail_tambahan = input(f"-> Masukkan detail lokasi acara untuk {paket_dipilih.get_nama_paket()}: ")
+                        elif "Wisuda" in paket_dipilih.get_nama_paket():
+                            detail_tambahan = input(f"-> Berapa jumlah orang dalam sesi {paket_dipilih.get_nama_paket()} ini? ")
+                    else:
                         print("[-] Pilihan paket tidak valid!")
                         if not konfirmasi_error(): return
                         continue
-                        
-                    paket_dipilih = daftar_paket[pil_paket - 1]
-                    
-                    detail_tambahan = ""
-                    if "Wedding" in paket_dipilih.get_nama_paket():
-                        detail_tambahan = input(f"-> Masukkan detail lokasi acara untuk {paket_dipilih.get_nama_paket()}: ")
-                    elif "Wisuda" in paket_dipilih.get_nama_paket():
-                        detail_tambahan = input(f"-> Berapa jumlah orang dalam sesi {paket_dipilih.get_nama_paket()} ini? ")
                         
                 except ValueError:
                     print("[-] Harap masukkan angka yang valid!")
