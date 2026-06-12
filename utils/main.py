@@ -2,6 +2,7 @@ import sys
 import os
 from datetime import datetime
 from datetime import datetime, timedelta
+import json
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if ROOT_DIR not in sys.path:
@@ -24,7 +25,10 @@ except ImportError as e:
 daftar_paket = [
     PaketWedding("PW01", "Wedding Premium", 5000000, 8, True, "Dokumentasi eksklusif pernikahan full-day, gratis cetak album & dekorasi mini studio."),
     PaketWisuda("PS01", "Wisuda Gold", 1500000, 3, 5, "Sesi foto wisuda VIP (Indoor/Outdoor), bebas gaya, maks 5 orang, termasuk frame 17R."),
-    PaketWisuda("PS02", "Wisuda Hemat", 800000, 1, 2, "Sesi foto wisuda durasi singkat, maks 2 orang, hasil foto diedit secara digital.")
+    # [BARIS 27] Beri koma di akhir baris ini:
+    PaketWisuda("PS02", "Wisuda Hemat", 800000, 1, 2, "Sesi foto wisuda durasi singkat, maks 2 orang, hasil foto diedit secara digital."),
+    # [BARIS 28] Tambahkan PaketCustom di bawah ini:
+    PaketCustom("PC01", "Custom Event (Ultah/Reuni)", 250000, 4, "Paket fleksibel dihitung per jam. Minimum booking 4 jam.")
 ]
 
 daftar_fotografer = [
@@ -36,6 +40,16 @@ daftar_fotografer = [
 sistem_laporan = Laporan()
 daftar_booking = []
 BATAS_SESI_PER_WAKTU = 1 
+
+admin_utama = Admin(id="A01", nama="Budi Manager", username="admin", password="password123")
+admin_utama.paket_list = daftar_paket
+
+def simpan_data_booking():
+    data_tersimpan = [booking.to_dict() for booking in daftar_booking]
+    with open("backup_booking.json", "w") as file_json:
+        json.dump(data_tersimpan, file_json, indent=4)
+    print("\n[+] Data seluruh booking berhasil di-backup ke 'backup_booking.json'!")
+
 
 
 def generate_id_booking():
@@ -405,6 +419,8 @@ def menu_manager():
             jeda_interaksi()
             
         elif pil == '0':
+            print("\nTerima kasih telah menggunakan LensBooking!")
+            simpan_data_booking()
             break
             
         else:
